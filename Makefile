@@ -8,7 +8,7 @@ build:
 run-entrypoint:
 	docker run --entrypoint /bin/bash -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --link test-mysql:db --rm opstree/mysqlbackup:0.1
 
-nbackup:
+backup:
 	docker run -it  -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --link test-mysql:db opstree/mysqlbackup:0.1 backup
 
 restore:
