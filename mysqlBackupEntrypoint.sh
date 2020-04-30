@@ -16,15 +16,6 @@ case $1 in
   getBackupID)
     ./resticEntrypoint.sh list
     ;;
-  writeData)
-    writeToDB
-    ;;
-  readData)
-    readFromDB
-    ;;    
-  cleanData)
-    cleanDB
-    ;; 
   *)
     echo -n "Please give valid input"
     exit 1
