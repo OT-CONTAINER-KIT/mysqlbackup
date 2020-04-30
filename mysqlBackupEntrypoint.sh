@@ -22,6 +22,9 @@ case $1 in
   readData)
     readFromDB
     ;;    
+  cleanData)
+    cleanDB
+    ;; 
   *)
     echo -n "Please give valid input"
     exit 1

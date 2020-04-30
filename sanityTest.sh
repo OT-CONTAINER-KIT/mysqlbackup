@@ -29,3 +29,15 @@ function readFromDB(){
         echo -e "\nReading data to DB SuccessFull..!"
     fi
 }
+
+function cleanDB(){  
+    echo -n "Clean Entry from DB"
+    local command="DROP DATABASE dummy"
+    executeCommand $command
+    if [ "$?" -ne "0" ]; then
+        echo -n "Clean Entry from DB FAILED..!"
+        exit 1
+    else
+        echo -e "\nClean Entry from DB SuccessFull..!"
+    fi
+}

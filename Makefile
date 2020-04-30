@@ -11,6 +11,9 @@ put-dummy-data:
 get-dummy-data:
 	docker run -it  -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --net test-mysql:db opstree/mysqlbackup:0.1 readData
 
+clean-database:
+	docker run -it  -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --net test-mysql:db opstree/mysqlbackup:0.1 cleanData
+
 run-entrypoint:
 	docker run --entrypoint /bin/bash -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --net test-mysql:db --rm opstree/mysqlbackup:0.1
 
@@ -24,8 +27,8 @@ getBackupID:
 	docker run -it --rm opstree/mysqlbackup:1.0 getBackupID
 
 end-to-end-test:
-	make initialize
+	make put-dummy-data
 	make backup
-	make list
-	make restore-snapshot
-	make backup-failure || true
+	make clean-database
+	make restore
+	make get-dummy-data
