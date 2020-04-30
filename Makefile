@@ -6,13 +6,13 @@ build:
 	docker build -t opstree/mysqlbackup:0.1 .
 
 put-dummy-data:
-	docker run -it  -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --net test-mysql:db opstree/mysqlbackup:0.1 writeData
+	docker run -it  -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --net test-mysql:db opstree/mysqlbackup:0.1 mysql sh -c 'echo "[client]\nuser=\"$MYSQL_USER\"\n password=\"$MYSQL_PASSWORD\"\nhost=\"$MYSQL_HOST_IP\"\nport=\"$MYSQL_HOST_PORT\"" > /tmp/my.cnf && exec mysql --defaults-file=/tmp/my.cnf CREATE DATABASES dummy'
 
 get-dummy-data:
-	docker run -it  -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --net test-mysql:db opstree/mysqlbackup:0.1 readData
+	docker run -it  -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --net test-mysql:db opstree/mysqlbackup:0.1 mysql sh -c 'echo "[client]\nuser=\"$MYSQL_USER\"\n password=\"$MYSQL_PASSWORD\"\nhost=\"$MYSQL_HOST_IP\"\nport=\"$MYSQL_HOST_PORT\"" > /tmp/my.cnf && exec mysql --defaults-file=/tmp/my.cnf USE dumy'
 
 clean-database:
-	docker run -it  -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --net test-mysql:db opstree/mysqlbackup:0.1 cleanData
+	docker run -it  -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --net test-mysql:db opstree/mysqlbackup:0.1 mysql sh -c 'echo "[client]\nuser=\"$MYSQL_USER\"\n password=\"$MYSQL_PASSWORD\"\nhost=\"$MYSQL_HOST_IP\"\nport=\"$MYSQL_HOST_PORT\"" > /tmp/my.cnf && exec mysql --defaults-file=/tmp/my.cnf DROP DATABASES dummy'
 
 run-entrypoint:
 	docker run --entrypoint /bin/bash -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -it --net test-mysql:db --rm opstree/mysqlbackup:0.1
@@ -32,3 +32,4 @@ end-to-end-test:
 	make clean-database
 	make restore
 	make get-dummy-data
+	make clean-database
