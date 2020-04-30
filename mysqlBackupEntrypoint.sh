@@ -2,6 +2,7 @@
 source /scripts/mysqlbackup.sh
 source /etc/backup/db.default
 source /etc/backup/db.properties
+source /etc/backup/sanityTest.sh
 
 genetareMyCnfFile
 case $1 in
@@ -15,6 +16,12 @@ case $1 in
   getBackupID)
     ./resticEntrypoint.sh list
     ;;
+  writeData)
+    writeToDB
+    ;;
+  readData)
+    readFromDB
+    ;;    
   *)
     echo -n "Please give valid input"
     exit 1

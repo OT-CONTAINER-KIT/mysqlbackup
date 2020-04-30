@@ -7,7 +7,7 @@ LABEL VERSION=1.0 \
 USER root
 RUN apk add --no-cache mysql-client
 
-COPY db.default /etc/backup/
+COPY ["db.default", "sanityTest.sh", "/etc/backup/"]
 COPY mysqlbackup.sh /scripts/
 RUN chown -R backup:backup /etc/backup/
 COPY mysqlBackupEntrypoint.sh /mysqlBackupEntrypoint.sh
