@@ -2,7 +2,6 @@
 source /scripts/mysqlbackup.sh
 source /etc/backup/db.default
 source /etc/backup/db.properties
-source /etc/backup/sanityTest.sh
 
 genetareMyCnfFile
 case $1 in
@@ -11,6 +10,7 @@ case $1 in
     ./resticEntrypoint.sh backup /tmp $backup_file_name
     ;;
   restore)
+    ./resticEntrypoint.sh restore $2 /tmp
     restoreMysqlDB
     ;;
   getBackupID)
