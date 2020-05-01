@@ -21,17 +21,14 @@ clean-db:
 restore:
 	docker run -it --rm  -v ${PWD}/test/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --link test-mysql:db opstree/mysqlbackup:0.1 restore latest
 
-get-dummy-data:
-	docker run -it  -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --net local test-mysql:db opstree/mysqlbackup:0.1 mysql sh -c 'echo "[client]\nuser=\"$MYSQL_USER\"\n password=\"$MYSQL_PASSWORD\"\nhost=\"$MYSQL_HOST_IP\"\nport=\"$MYSQL_HOST_PORT\"" > /tmp/my.cnf && exec mysql --defaults-file=/tmp/my.cnf USE dumy'
-
-
 getBackupID:
 	docker run -it --rm opstree/mysqlbackup:1.0 getBackupID
 
 end-to-end-test:
+	make build
+	make test-db
+	sleep 30s
 	make put-dummy-data
 	make backup
-	make clean-database
+	make clean-db
 	make restore
-	make get-dummy-data
-	make clean-database
