@@ -2,15 +2,8 @@ source /etc/backup/db.default
 source /etc/backup/db.properties
 
 function genetareMyCnfFile(){
-  local decoded_mysql_password=$(echo ${backup_user_password} | base64 -d )
   local decoded_mysqldump_password=$(echo ${mysqldump_password} | base64 -d )
 cat > /etc/backup/my.cnf <<EOF
-[mysql]
-host = $mysql_host_address
-port = $mysql_host_port
-user = $backup_user
-password = $decoded_mysql_password
-
 [mysqldump]
 host = $mysql_host_address
 port = $mysql_host_port
