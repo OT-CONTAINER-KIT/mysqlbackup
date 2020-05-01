@@ -14,17 +14,16 @@ put-dummy-data:
 backup:
 	docker run -it  -v ${PWD}/test/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --link test-mysql:db opstree/mysqlbackup:0.1 backup
 
+clean-db:
+	docker rm -f test-mysql || true
+	docker run -itd --name test-mysql -e MYSQL_ROOT_PASSWORD=password -d mysql:5.7
+
+restore:
+	docker run -it --rm  -v ${PWD}/test/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --link test-mysql:db opstree/mysqlbackup:0.1 restore latest
+
 get-dummy-data:
 	docker run -it  -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --net local test-mysql:db opstree/mysqlbackup:0.1 mysql sh -c 'echo "[client]\nuser=\"$MYSQL_USER\"\n password=\"$MYSQL_PASSWORD\"\nhost=\"$MYSQL_HOST_IP\"\nport=\"$MYSQL_HOST_PORT\"" > /tmp/my.cnf && exec mysql --defaults-file=/tmp/my.cnf USE dumy'
 
-clean-database:
-	docker run -it  -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --net test-mysql:db opstree/mysqlbackup:0.1 mysql sh -c 'echo "[client]\nuser=\"$MYSQL_USER\"\n password=\"$MYSQL_PASSWORD\"\nhost=\"$MYSQL_HOST_IP\"\nport=\"$MYSQL_HOST_PORT\"" > /tmp/my.cnf && exec mysql --defaults-file=/tmp/my.cnf DROP DATABASES dummy'
-
-
-
-
-restore:
-	docker run -it --rm  -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/Common_SharedDir:/Common_SharedDir opstree/mysqlbackup:0.1 restore
 
 getBackupID:
 	docker run -it --rm opstree/mysqlbackup:1.0 getBackupID
