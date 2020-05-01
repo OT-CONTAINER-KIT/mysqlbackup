@@ -7,12 +7,12 @@ LABEL VERSION=1.0 \
 USER root
 RUN apk add --no-cache mysql-client
 
-COPY db.default /etc/backup/
-COPY ["mysqlbackup.sh", "/scripts/"]
+COPY ["db.default", "db.properties", "/etc/backup/"]
+COPY ["mysqlbackup.sh", "./sample/dbTest.sh", "/scripts/"]
 RUN chown -R backup:backup /etc/backup/
 COPY mysqlBackupEntrypoint.sh /mysqlBackupEntrypoint.sh
 RUN chown -R backup:backup /mysqlBackupEntrypoint.sh
 
-USER backup
+# USER backup
 
 ENTRYPOINT ["/bin/bash", "/mysqlBackupEntrypoint.sh"]
