@@ -14,7 +14,7 @@ Currently supported :
 Future support:
 * Mysql incremental backup
 
-## Backup Operation
+## Backup & Restore DB Operation
 
 ```
 docker run -it  -v ${PWD}/db.properties:/etc/backup/db.properties -v ${PWD}/restic.properties:/etc/backup/restic.properties --rm --net <remote_mysql_db> opstree/mysqlbackup:0.1 <operation>
