@@ -1,9 +1,9 @@
 mysql_host_address="172.17.0.2"
 mysql_host_port="3306"
 backup_user="root"
-backup_user_password="cGFzc3dvcmQK" #pass in base64 incoded format
+backup_user_password="xxxxxx" #pass in base64 incoded format
 mysqldump_user="root"
-mysqldump_password="cGFzc3dvcmQK" #pass in base64 incoded format
+mysqldump_password="xxxxxx" #pass in base64 incoded format
 backup_DB_name=""
 backup_file_name="mysqlBackup.sql"   #must be without extention i.e dont use .sql at the end recommended
 restore_file_ID="latest" # for any specific restore point kindly mention its ID
