@@ -24,9 +24,8 @@ docker run -it  -v ${PWD}/db.properties:/etc/backup/db.properties -v ${PWD}/rest
 ```
 
 * Restore Mysql Database:
-For restore you need provide 2 inputs
+For restore you need provide 1 inputs
   * Snapshot ID of backup
-  * Directory where backup to be restored
 
 ```
 docker run -it --rm  -v ${PWD}/db.properties:/etc/backup/db.properties -v ${PWD}/restic.properties:/etc/backup/restic.properties --net <remote_mysql_db> opstree/mysqlbackup:0.1 <operation> <backup_ID>
