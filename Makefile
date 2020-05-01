@@ -6,10 +6,10 @@ build:
 	docker build -t opstree/mysqlbackup:0.1 .
 
 run-entrypoint:
-	docker run --entrypoint /bin/bash -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -v ${PWD}/sample/dbTest.sh:/scripts/dbTest.sh -it --rm --link test-mysql:db opstree/mysqlbackup:0.1
+	docker run --entrypoint /bin/bash -v ${PWD}/test/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -v ${PWD}/test/dbTest.sh:/scripts/dbTest.sh -it --rm --link test-mysql:db opstree/mysqlbackup:0.1
 
 put-dummy-data:
-	docker run -it --entrypoint /bin/bash -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -v ${PWD}/sample/dbTest.sh:/scripts/dbTest.sh --rm  --link test-mysql:db opstree/mysqlbackup:0.1 -c "source /scripts/dbTest.sh; insertData"
+	docker run -it --entrypoint /bin/bash -v ${PWD}/test/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties -v ${PWD}/test/dbTest.sh:/scripts/dbTest.sh --rm  --link test-mysql:db opstree/mysqlbackup:0.1 -c "source /scripts/dbTest.sh; insertData"
 
 get-dummy-data:
 	docker run -it  -v ${PWD}/sample/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --net local test-mysql:db opstree/mysqlbackup:0.1 mysql sh -c 'echo "[client]\nuser=\"$MYSQL_USER\"\n password=\"$MYSQL_PASSWORD\"\nhost=\"$MYSQL_HOST_IP\"\nport=\"$MYSQL_HOST_PORT\"" > /tmp/my.cnf && exec mysql --defaults-file=/tmp/my.cnf USE dumy'
