@@ -15,6 +15,6 @@ RUN chown -R backup:backup /etc/backup/
 COPY mysqlBackupEntrypoint.sh /mysqlBackupEntrypoint.sh
 RUN chown -R backup:backup /mysqlBackupEntrypoint.sh
 
-# USER backup
+USER backup
 
 ENTRYPOINT ["/bin/bash", "/mysqlBackupEntrypoint.sh"]
