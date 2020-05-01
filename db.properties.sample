@@ -1,7 +1,7 @@
 mysql_host_address="172.17.0.2"
 mysql_host_port="3306"
-backup_user="root"
-backup_user_password="xxxxxx" #pass in base64 incoded format
+mysql_restore_user="root"
+mysql_restore_password="xxxxxx" #pass in base64 incoded format
 mysqldump_user="root"
 mysqldump_password="xxxxxx" #pass in base64 incoded format
 backup_DB_name=""
