@@ -2,6 +2,8 @@
 source /scripts/mysqlbackup.sh
 source /etc/backup/db.default
 source /etc/backup/db.properties
+source /scripts/logging.sh
+SCRIPTENTRY
 
 genetareMyCnfFile
 case $1 in

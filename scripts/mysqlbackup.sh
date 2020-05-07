@@ -2,6 +2,7 @@ source /etc/backup/db.default
 source /etc/backup/db.properties
 
 function genetareMyCnfFile(){
+  ENTRY
   local decoded_mysqldump_password=$(echo ${mysqldump_password} | base64 -d )
   local decoded_mysql_restore_password=$(echo ${mysql_restore_password} | base64 -d )
 cat > /etc/backup/my.cnf <<EOF
@@ -17,33 +18,39 @@ port = $mysql_host_port
 user = $mysql_restore_user
 password = $decoded_mysql_restore_password
 EOF
+EXIT
 }
 
 function backupMysqlDB(){
-  echo -n "Taking Backup"
+  ENTRY
   local exec_command="mysqldump --defaults-file=/etc/backup/my.cnf --all-databases $backup_DB_name > /tmp/$backup_file_name"
   sh -c "$exec_command"
   if [ "$?" -ne "0" ]; then
-    echo -n "Backup FAILED..!"
+    ERROR "Backup FAILED..!"
     exit 1
   else
-    echo -e "\nBackup SuccessFull..!"
+    DEBUG "Backup SuccessFull..!"
   fi
+  EXIT
 }
 
 function restoreMysqlDB(){
+  ENTRY
   echo -n "Doing Restore"
   local exec_command="mysql --defaults-file=/etc/backup/my.cnf $backup_DB_name < /tmp/$backup_file_name"
   sh -c "$exec_command"
   if [ "$?" -ne "0" ]; then
-    echo -n "Restore FAILED..!"
+    ERROR "Restore FAILED..!"
     exit 1
   else
-    echo -e "\nRestore SuccessFull..!"
+    DEBUG "\nRestore SuccessFull..!"
   fi
+  EXIT
 }
 
 function clearTraces(){
-  echo "Removing temporarily generated MySQL conf file"
+  ENTRY
+  DEBUG "Removing temporarily generated MySQL conf file"
   rm -rf /etc/backup/my.cnf
+  EXIT
 }
