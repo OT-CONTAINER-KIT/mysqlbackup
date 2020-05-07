@@ -7,14 +7,14 @@ genetareMyCnfFile
 case $1 in
   backup)
     backupMysqlDB
-    ./resticEntrypoint.sh backup /tmp $backup_file_name
+    /scripts//resticEntrypoint.sh backup /tmp $backup_file_name
     ;;
   restore)
-    ./resticEntrypoint.sh restore $2 /tmp
+    /scripts/resticEntrypoint.sh restore $2 /tmp
     restoreMysqlDB
     ;;
   getBackupID)
-    ./resticEntrypoint.sh list
+    /scripts/resticEntrypoint.sh list
     ;;
   *)
     echo -n "Please give valid input"

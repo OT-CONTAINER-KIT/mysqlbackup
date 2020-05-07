@@ -1,4 +1,4 @@
-From opstree/restic:0.1
+From opstree/restic:0.2
 
 LABEL VERSION=1.0 \
       ARCH=AMD64 \
@@ -9,12 +9,10 @@ USER root
 RUN apk add --no-cache mysql-client
 
 COPY ["db.default", "/etc/backup/"]
-COPY ["mysqlbackup.sh", "/scripts/"]
+COPY ["scripts/", "/scripts/"]
 
-RUN chown -R backup:backup /etc/backup/
-COPY mysqlBackupEntrypoint.sh /mysqlBackupEntrypoint.sh
-RUN chown -R backup:backup /mysqlBackupEntrypoint.sh
+RUN chown -R backup:backup /etc/backup/ /scripts
 
-# USER backup
+USER backup
 
-ENTRYPOINT ["/bin/bash", "/mysqlBackupEntrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/scripts/mysqlBackupEntrypoint.sh"]
