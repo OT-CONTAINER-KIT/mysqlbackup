@@ -9,7 +9,7 @@ genetareMyCnfFile
 case $1 in
   backup)
     backupMysqlDB
-    /scripts//resticEntrypoint.sh backup /tmp $backup_file_name
+    /scripts/resticEntrypoint.sh backup /tmp $backup_file_name
     ;;
   restore)
     /scripts/resticEntrypoint.sh restore $2 /tmp

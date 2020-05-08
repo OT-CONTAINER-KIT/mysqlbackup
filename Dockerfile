@@ -1,4 +1,4 @@
-From opstree/restic:0.2
+FROM opstree/restic:0.2
 
 LABEL VERSION=1.0 \
       ARCH=AMD64 \
