@@ -1,4 +1,4 @@
-@Library("opstree-library@docker-ci-v0.1") _
+@Library("opstree-library@docker-ci-v0.1-latest") _
 
 node(){
     dockerImagePublisherWorkflow.call(
