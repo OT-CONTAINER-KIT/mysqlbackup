@@ -17,29 +17,23 @@ Future support:
 ## Backup & Restore DB Operation
 
 ```
-docker run -it  -v ${PWD}/db.properties:/etc/backup/db.properties -v ${PWD}/restic.properties:/etc/backup/restic.properties --rm --net <remote_mysql_db> opstree/mysqlbackup:0.1 <operation>
-
-i.e
-docker run -it  -v ${PWD}/db.properties:/etc/backup/db.properties -v ${PWD}/restic.properties:/etc/backup/restic.properties --rm --net test-mysql:db opstree/mysqlbackup:0.1 backup
+docker run -it -v ${PWD}/sample/log:/var/log/backup -v ${PWD}/test/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --rm --link test-mysql:db opstree/mysqlbackup:$(MYSQL_BACKUP_IMAGE_VERSION) backup
 ```
 
 * Restore Mysql Database:
-For restore you need provide 1 inputs
+For restore you need to provide 1 input
   * Snapshot ID of backup
 
 ```
-docker run -it --rm  -v ${PWD}/db.properties:/etc/backup/db.properties -v ${PWD}/restic.properties:/etc/backup/restic.properties --net <remote_mysql_db> opstree/mysqlbackup:0.1 <operation> <backup_ID>
-
-i.e
-docker run -it --rm  -v ${PWD}/db.properties:/etc/backup/db.properties -v ${PWD}/restic.properties:/etc/backup/restic.properties --net test-mysql:db opstree/mysqlbackup:0.1 restore latest
+docker run -it --rm  -v ${PWD}/sample/log:/var/log/backup -v ${PWD}/test/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --link test-mysql:db opstree/mysqlbackup:$(MYSQL_BACKUP_IMAGE_VERSION) restore latest
 ```
 * Listing of backups
 ```
-docker run -it --rm opstree/mysqlbackup:1.0 getBackupID
+docker run -it --rm -v ${PWD}/sample/log:/var/log/backup -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties opstree/mysqlbackup:$(MYSQL_BACKUP_IMAGE_VERSION) getBackupID
 ```  
 ## TODO
 * Support environment variables
 * Strengthen input validations
 
 ## Reference
-* https://github.com/banzaicloud/docker-mysql-client
+* https://github.com/OT-CONTAINER-KIT/restic

@@ -26,7 +26,7 @@ restore:
 	docker run -it --rm  -v ${PWD}/sample/log:/var/log/backup -v ${PWD}/test/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties --link test-mysql:db opstree/mysqlbackup:$(MYSQL_BACKUP_IMAGE_VERSION) restore latest
 
 getBackupID:
-	docker run -it --rm -v ${PWD}/sample/log:/var/log/backup -v ${PWD}/test/db.properties:/etc/backup/db.properties -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties opstree/mysqlbackup:$(MYSQL_BACKUP_IMAGE_VERSION) getBackupID
+	docker run -it --rm -v ${PWD}/sample/log:/var/log/backup -v ${PWD}/sample/restic.properties:/etc/backup/restic.properties opstree/mysqlbackup:$(MYSQL_BACKUP_IMAGE_VERSION) getBackupID
 
 end-to-end-test:
 	make build
